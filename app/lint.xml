@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!--
+      An enum used as a navigation route argument is looked up by name at runtime, so R8 must keep
+      it — a miss crashes the minified app at launch. An error, so a new one fails lint; GameId is
+      kept by app/proguard-rules.pro (-keepnames), which lint can't see.
+    -->
+    <issue id="MissingKeepAnnotation" severity="error">
+        <ignore regexp="GameId" />
+    </issue>
+</lint>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.CardGames" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <!-- Background color of the splash screen — the Parlour felt -->
+        <item name="windowSplashScreenBackground">#214F3C</item>
+
+        <!-- Use the app icon as the center motif -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+
+        <!-- The theme to switch to after the splash screen is dismissed -->
+        <item name="postSplashScreenTheme">@style/Theme.CardGames</item>
+    </style>
+</resources>

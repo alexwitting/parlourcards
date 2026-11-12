@@ -1,0 +1,110 @@
+name: CardGames CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_call:
+  workflow_dispatch:
+    inputs:
+      build_apk:
+        description: 'Also build and upload the debug APK'
+        type: boolean
+        default: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # required for actions/checkout
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: temurin
+          cache: gradle
+
+      - name: Accept Android licences
+        run: yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
+      # Android Lint too: it flags what R8 would break in the release build (an enum route
+      # argument without a keep rule crashed the minified app at launch while debug ran fine).
+      - name: Lint (ktlint + detekt + Android Lint)
+        run: ./gradlew ktlintCheck detekt lint
+
+      # koverVerify enforces each module's coverage floor (its build.gradle.kts).
+      - name: Unit tests + coverage
+        run: ./gradlew test koverXmlReport koverHtmlReport koverVerify
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: build/reports/kover/
+
+      # The release build: R8 shrinks and renames classes here, which debug builds never do — a
+      # release-only crash (an enum route argument renamed by R8) once shipped past every debug check.
+      # Unsigned is fine: this is about R8, not distribution.
+      - name: Release build (R8)
+        run: ./gradlew assembleRelease
+
+      # Navigation looks GameId up by its class name; app/proguard-rules.pro must keep it unrenamed.
+      - name: Check R8 kept the navigation enum
+        run: |
+          grep -q '^com.cardgames.core.domain.game.GameId -> com.cardgames.core.domain.game.GameId:' \
+            app/build/outputs/mapping/release/mapping.txt \
+            || { echo "R8 renamed GameId — check app/proguard-rules.pro"; exit 1; }
+
+      # Fails on any pixel change against the committed baselines (src/test/screenshots). After an
+      # intended visual change, re-record locally with ./gradlew recordRoborazziDebug and commit.
+      - name: Screenshot tests
+        run: ./gradlew verifyRoborazziDebug
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: screenshot-diffs
+          path: '**/build/outputs/roborazzi/'
+
+  build:
+    needs: verify
+    if: github.event_name == 'workflow_dispatch' && inputs.build_apk
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write # required to delete old artifacts
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: temurin
+          cache: gradle
+
+      - name: Accept Android licences
+        run: yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
+      - name: Build
+        run: ./gradlew assembleDebug
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Clean up old artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ids=$(gh api repos/${{ github.repository }}/actions/artifacts \
+            --paginate \
+            --jq '[.artifacts[] | select(.name == "app-debug" and .expired == false)]
+                  | sort_by(.created_at) | reverse | .[3:] | .[].id')
+          for id in $ids; do
+            gh api --method DELETE repos/${{ github.repository }}/actions/artifacts/$id
+          done

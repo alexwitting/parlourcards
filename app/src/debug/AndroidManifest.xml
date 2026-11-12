@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Debug builds only: the test scenarios (see com.cardgames.debug.ScenarioActivity). -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity
+            android:name="com.cardgames.debug.ScenarioActivity"
+            android:exported="true"
+            android:label="Parlour Scenarios"
+            android:taskAffinity="com.cardgames.debug.scenarios">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

@@ -1,0 +1,140 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "09571e42d25c8c04334c3847cdb689ad",
+    "entities": [
+      {
+        "tableName": "saved_games",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` TEXT NOT NULL, `stateJson` TEXT NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`gameId`))",
+        "fields": [
+          {
+            "fieldPath": "gameId",
+            "columnName": "gameId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stateJson",
+            "columnName": "stateJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "gameId"
+          ]
+        }
+      },
+      {
+        "tableName": "game_results",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `gameId` TEXT NOT NULL, `won` INTEGER NOT NULL, `score` INTEGER, `durationSec` INTEGER NOT NULL, `endedAt` INTEGER NOT NULL, `moves` INTEGER, `drawCount` INTEGER, `ginOpponent` TEXT, `ginOpponentScore` INTEGER, `ginGins` INTEGER, `ginUndercuts` INTEGER, `ginBestHand` INTEGER, `ginKnocks` INTEGER, `ginKnockDeadwood` INTEGER, `ginHands` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gameId",
+            "columnName": "gameId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "won",
+            "columnName": "won",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "score",
+            "columnName": "score",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "durationSec",
+            "columnName": "durationSec",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endedAt",
+            "columnName": "endedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "moves",
+            "columnName": "moves",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "drawCount",
+            "columnName": "drawCount",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "ginOpponent",
+            "columnName": "ginOpponent",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "ginOpponentScore",
+            "columnName": "ginOpponentScore",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "ginGins",
+            "columnName": "ginGins",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "ginUndercuts",
+            "columnName": "ginUndercuts",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "ginBestHand",
+            "columnName": "ginBestHand",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "ginKnocks",
+            "columnName": "ginKnocks",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "ginKnockDeadwood",
+            "columnName": "ginKnockDeadwood",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "ginHands",
+            "columnName": "ginHands",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '09571e42d25c8c04334c3847cdb689ad')"
+    ]
+  }
+}

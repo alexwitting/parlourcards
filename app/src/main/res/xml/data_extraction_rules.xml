@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Default-deny: no <include>, so nothing is eligible for cloud-backup or device-transfer.
+    Add <include>/<exclude> entries here if this app should support either — see
+    https://developer.android.com/about/versions/12/backup-restore
+-->
+<data-extraction-rules>
+    <cloud-backup />
+    <device-transfer />
+</data-extraction-rules>

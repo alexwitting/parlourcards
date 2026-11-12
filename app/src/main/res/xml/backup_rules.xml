@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Pre-Android-12 equivalent of data_extraction_rules.xml: no <include>, so nothing is eligible
+    for backup. Only reachable if a device somehow ignores android:allowBackup="false".
+    If this app SHOULD back up to the cloud, add <include> entries here and in
+    data_extraction_rules.xml, and flip android:allowBackup to "true" in the manifest.
+-->
+<full-backup-content />
