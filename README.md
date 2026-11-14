@@ -10,6 +10,13 @@ AI opponent — built with Kotlin and Jetpack Compose. No ads, no analytics, no 
   <img src=".github/images/gin-rummy.png" width="180" alt="Gin Rummy: your draw, the discard pile would make a meld" />
 </p>
 
+Tablet version
+
+<p align="center">
+  <img src=".github/images/tablet-solitaire.png" width="240" alt="Klondike Solitaire on a tablet, mid-game" />
+  <img src=".github/images/tablet-gin-rummy.png" width="240" alt="Gin Rummy on a tablet: your draw" />
+</p>
+
 ## Features
 
 - **Klondike Solitaire** — draw 1 or draw 3, with optional winnable deals.
