@@ -6,8 +6,10 @@ An offline Android app of classic card games — **Klondike Solitaire** and **Gi
 AI opponent — built with Kotlin and Jetpack Compose. No ads, no analytics, no network.
 
 <p align="center">
-  <img src=".github/images/solitaire.png" width="180" alt="Klondike Solitaire mid-game" />
-  <img src=".github/images/gin-rummy.png" width="180" alt="Gin Rummy: your draw, the discard pile would make a meld" />
+  <img src=".github/images/solitaire.png" height="300" alt="Klondike Solitaire mid-game" />
+  <img src=".github/images/gin-rummy.png" height="300" alt="Gin Rummy: your draw, the discard pile would make a meld" />
+  <img src=".github/images/tablet-solitaire.png" height="300" alt="Klondike Solitaire on a tablet, mid-game" />
+  <img src=".github/images/tablet-gin-rummy.png" height="300" alt="Gin Rummy on a tablet: your draw" />
 </p>
 
 ## Features
